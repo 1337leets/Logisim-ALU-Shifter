@@ -8,6 +8,7 @@ learn and test how these blocks work at gate level.
 - **2bit_alu:** 2-bit ALU with XOR, AND, OR and full-adder addition
 - **4bit_shifter:** 4-bit register with invert, rotate left, rotate right and parallel load
 - **4bit_alu_shifter_wip:** the ALU widened to 4 bits next to the shifter, as a first step toward combining them (work in progress, see below)
+- **extras/sr-clock-toggle:** a small S-R flip-flop control circuit (see Extras)
 
 ## 2-bit ALU
 
@@ -59,6 +60,24 @@ The goal was an ALU that can also multiply and divide. The steps toward that:
 1. Wire `OUT3..OUT0` into the shifter's `D3..D0`, so the load mode latches the ALU result and the shifter can shift it (a left shift multiplies by 2).
 2. Add subtraction to the ALU: XOR `B` with a `SUB` line and feed `SUB` into `CARRYIN` (two's complement).
 3. Add an accumulator register and a small FSM to sequence shift-and-add multiplication and shift-and-subtract division.
+
+## Extras — S-R Clock Toggle
+
+![SR clock toggle](extras/sr-clock-toggle/sr_clock_toggle.png)
+
+Two clocked S-R flip-flops with three buttons, made to test how S-R latches
+behave:
+
+- **Left button:** stops the circuit and resets both flip-flops. Both LEDs go off.
+- **Either of the other two buttons:** starts the circuit. It oscillates, and the
+  lit LED keeps switching from one flip-flop to the other on the clock.
+- **Holding one of those two buttons** sets one flip-flop and resets the other
+  for as long as it is pressed, so the lit LED stays on that side.
+
+Buttons are used instead of switches on purpose. With switches, both inputs
+could be left on and drive S and R high at the same time, the forbidden S-R
+input. Logisim only lets you press one button at a time, so the button inputs
+make S = R = 1 impossible in practice.
 
 ## Tools
 Logisim Evolution v4.1.0
