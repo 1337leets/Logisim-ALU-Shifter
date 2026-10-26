@@ -42,9 +42,9 @@ flip-flop loads on the next clock edge.
 | 1 | 1 | Parallel load | bits ← D3..D0 |
 
 The ends are looped back through the `q` and `d` tunnels, so the shift is a
-rotation: the pattern keeps circulating on every clock instead of falling off
-the end. There is no separate hold mode; the invert mode was added on purpose
-to watch the register toggle.
+rotation and the pattern keeps circulating on every clock instead of falling
+off the end. There is no separate hold mode, and the invert mode was added on
+purpose to watch the register toggle.
 
 ## 4-bit ALU + Shifter (work in progress)
 
@@ -52,21 +52,22 @@ to watch the register toggle.
 
 `4bit_alu_shifter_wip.circ` holds the same four ALU operations widened to
 4 bits (`A3..A0`, `B3..B0`, `OUT3..OUT0`, carry chained through all bits), and
-a copy of the shifter on the same sheet. The two are **not connected yet**:
+a copy of the shifter on the same sheet. The two are **not connected yet**, and
 the shifter still takes its data from its own `D3..D0` input pins.
 
-The goal was an ALU that can also multiply and divide. The steps toward that:
+The goal was an ALU that can also multiply and divide, and three steps remain
+to get there.
 
 1. Wire `OUT3..OUT0` into the shifter's `D3..D0`, so the load mode latches the ALU result and the shifter can shift it (a left shift multiplies by 2).
-2. Add subtraction to the ALU: XOR `B` with a `SUB` line and feed `SUB` into `CARRYIN` (two's complement).
+2. Add subtraction to the ALU by XORing `B` with a `SUB` line and feeding `SUB` into `CARRYIN` (two's complement).
 3. Add an accumulator register and a small FSM to sequence shift-and-add multiplication and shift-and-subtract division.
 
-## Extras — S-R Clock Toggle
+## Extras: S-R Clock Toggle
 
 ![SR clock toggle](extras/sr-clock-toggle/sr_clock_toggle.png)
 
 Two clocked S-R flip-flops with three buttons, made to test how S-R latches
-behave:
+behave.
 
 - **Left button:** stops the circuit and resets both flip-flops. Both LEDs go off.
 - **Either of the other two buttons:** starts the circuit. It oscillates, and the
